@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Estilos personalizados para placeholders mais escuros */
+::placeholder {
+  color: #374151 !important; /* gray-700 */
+  opacity: 1;
+}
+
+/* Para navegadores que não suportam ::placeholder */
+::-webkit-input-placeholder {
+  color: #374151 !important;
+}
+
+::-moz-placeholder {
+  color: #374151 !important;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #374151 !important;
+}
+
+/* Estilos para controlar o tamanho dos selects no modal */
+select {
+  max-height: 200px;
+}
+
+/* Para navegadores WebKit (Chrome, Safari, Edge) */
+select::-webkit-listbox {
+  max-height: 200px !important;
+}
+
+/* Para Firefox */
+select {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Para navegadores WebKit */
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+select::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+select::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Estilos específicos para selects do modal */
+.modal-select {
+  max-height: 150px;
+}
+
+.modal-select option {
+  padding: 8px 12px;
+}
+
+/* Controle de altura para o dropdown do select */
+.modal-select:focus {
+  max-height: 150px;
+}
+
+/* Para garantir que o dropdown não ultrapasse a tela */
+.modal-select:focus option {
+  max-height: 120px;
+  overflow-y: auto;
+}
