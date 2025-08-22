@@ -3,22 +3,6 @@ import { Usuario, Veiculo, Paciente, Viagem } from './types';
 // Dados iniciais para demonstração
 const usuariosIniciais: Usuario[] = [
   {
-    id: '1',
-    nome: 'João Silva',
-    email: 'joao@exemplo.com',
-    senha: '123456',
-    tipo: 'motorista',
-    telefone: '(11) 99999-9999'
-  },
-  {
-    id: '2',
-    nome: 'Maria Santos',
-    email: 'maria@exemplo.com',
-    senha: '123456',
-    tipo: 'motorista',
-    telefone: '(11) 88888-8888'
-  },
-  {
     id: 'admin',
     nome: 'Damir Silva',
     email: 'admin@exemplo.com',
@@ -28,39 +12,11 @@ const usuariosIniciais: Usuario[] = [
 ];
 
 const veiculosIniciais: Veiculo[] = [
-  {
-    id: '1',
-    placa: 'ABC-1234',
-    modelo: 'Sprinter',
-    marca: 'Mercedes',
-    ano: 2020,
-    disponivel: true
-  },
-  {
-    id: '2',
-    placa: 'DEF-5678',
-    modelo: 'Transit',
-    marca: 'Ford',
-    ano: 2021,
-    disponivel: true
-  }
+
 ];
 
 const pacientesIniciais: Paciente[] = [
-  {
-    id: '1',
-    nome: 'Ana Oliveira',
-    endereco: 'Rua das Flores, 123',
-    telefone: '(11) 77777-7777',
-    cidade: 'São Paulo'
-  },
-  {
-    id: '2',
-    nome: 'Carlos Pereira',
-    endereco: 'Av. Paulista, 456',
-    telefone: '(11) 66666-6666',
-    cidade: 'São Paulo'
-  }
+
 ];
 
 // Funções para gerenciar dados no localStorage
