@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Car, ArrowLeft, Save, Truck } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { getUsuarioLogado, getVeiculos, setVeiculos } from '@/lib/database';
+import { getUsuarioLogado, getVeiculos, addVeiculo } from '@/lib/database';
 import { Veiculo } from '@/lib/types';
 
 export default function CadastrarVeiculoPage() {
@@ -57,7 +57,7 @@ export default function CadastrarVeiculoPage() {
     }
 
     try {
-      const veiculos = getVeiculos();
+      const veiculos = await getVeiculos();
       
       // Verificar se a placa já existe
       const placaExiste = veiculos.find(v => v.placa.toUpperCase() === formData.placa.toUpperCase());
@@ -68,8 +68,7 @@ export default function CadastrarVeiculoPage() {
       }
 
       // Criar novo veículo
-      const novoVeiculo: Veiculo = {
-        id: Date.now().toString(),
+      const novoVeiculo = {
         placa: formData.placa.toUpperCase(),
         modelo: formData.modelo,
         marca: formData.marca,
@@ -78,8 +77,7 @@ export default function CadastrarVeiculoPage() {
       };
 
       // Adicionar à lista de veículos
-      const novaListaVeiculos = [...veiculos, novoVeiculo];
-      setVeiculos(novaListaVeiculos);
+      await addVeiculo(novoVeiculo);
 
       setSuccess('Veículo cadastrado com sucesso!');
       

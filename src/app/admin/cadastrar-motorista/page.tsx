@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, ArrowLeft, Save, UserPlus } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { getUsuarioLogado, getUsuarios, setUsuarios } from '@/lib/database';
+import { getUsuarioLogado, getUsuarios, addUsuario } from '@/lib/database';
 import { Usuario } from '@/lib/types';
 import { formatarTelefone, validarTelefone } from '@/lib/utils';
 
@@ -63,7 +63,7 @@ export default function CadastrarMotoristaPage() {
     }
 
     try {
-      const usuarios = getUsuarios();
+      const usuarios = await getUsuarios();
       
       // Verificar se o email já existe
       const emailExiste = usuarios.find(u => u.email === formData.email);
@@ -74,18 +74,16 @@ export default function CadastrarMotoristaPage() {
       }
 
       // Criar novo motorista
-      const novoMotorista: Usuario = {
-        id: Date.now().toString(),
+      const novoMotorista = {
         nome: formData.nome,
         email: formData.email,
         senha: formData.senha,
-        tipo: 'motorista',
+        tipo: 'motorista' as const,
         telefone: formData.telefone
       };
 
       // Adicionar à lista de usuários
-      const novaListaUsuarios = [...usuarios, novoMotorista];
-      setUsuarios(novaListaUsuarios);
+      await addUsuario(novoMotorista);
 
       setSuccess('Motorista cadastrado com sucesso!');
       

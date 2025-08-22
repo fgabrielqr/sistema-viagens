@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Car, User, Lock, Eye, EyeOff } from 'lucide-react';
-import { autenticarUsuario, setUsuarioLogado } from '@/lib/database';
+import { autenticarUsuario, setUsuarioLogado, garantirAdminExiste } from '@/lib/database';
 import { LoginForm } from '@/lib/types';
 
 export default function LoginPage() {
@@ -16,13 +16,18 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Garantir que o admin existe quando a página carrega
+  useEffect(() => {
+    garantirAdminExiste();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      const usuario = autenticarUsuario(formData.email, formData.senha);
+      const usuario = await autenticarUsuario(formData.email, formData.senha);
       
       if (usuario) {
         setUsuarioLogado(usuario);
@@ -49,7 +54,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">

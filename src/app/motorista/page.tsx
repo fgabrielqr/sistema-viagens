@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Calendar, Clock, MapPin, Users, Car, CheckCircle, XCircle, PlayCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { getUsuarioLogado, getViagens, setViagens } from '@/lib/database';
+import { getUsuarioLogado, getViagensPorMotorista, updateViagem } from '@/lib/database';
 import { Viagem } from '@/lib/types';
 
 export default function MotoristaPage() {
@@ -34,22 +34,40 @@ export default function MotoristaPage() {
     }
 
     // Carregar viagens do motorista
-    const todasViagens = getViagens();
-    const viagensMotorista = todasViagens.filter(v => v.motoristaId === usuario.id);
-    setViagensState(viagensMotorista);
-    setLoading(false);
+    const carregarViagens = async () => {
+      try {
+        console.log('Usuário logado:', usuario);
+        console.log('ID do motorista:', usuario.id);
+        
+        const viagensMotorista = await getViagensPorMotorista(usuario.id);
+        setViagensState(viagensMotorista);
+      } catch (error) {
+        console.error('Erro ao carregar viagens:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    carregarViagens();
   }, [isClient, router]);
 
-  const atualizarStatusViagem = (viagemId: string, novoStatus: Viagem['status']) => {
-    const todasViagens = getViagens();
-    const viagensAtualizadas = todasViagens.map(v => 
-      v.id === viagemId ? { ...v, status: novoStatus, atualizadoEm: new Date().toISOString() } : v
-    );
-    setViagens(viagensAtualizadas);
-    
-    const usuario = getUsuarioLogado();
-    const viagensMotorista = viagensAtualizadas.filter(v => v.motoristaId === usuario?.id);
-    setViagensState(viagensMotorista);
+  const atualizarStatusViagem = async (viagemId: string, novoStatus: Viagem['status']) => {
+    try {
+      await updateViagem(viagemId, { 
+        status: novoStatus, 
+        atualizadoEm: new Date().toISOString() 
+      });
+      
+      // Recarregar viagens do motorista
+      const usuario = getUsuarioLogado();
+      if (usuario) {
+        const viagensMotorista = await getViagensPorMotorista(usuario.id);
+        setViagensState(viagensMotorista);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar status da viagem:', error);
+      alert('Erro ao atualizar status da viagem. Tente novamente.');
+    }
   };
 
   const getStatusColor = (status: Viagem['status']) => {

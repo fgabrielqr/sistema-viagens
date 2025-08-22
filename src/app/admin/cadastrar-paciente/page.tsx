@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, ArrowLeft, Save, Heart } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import { getUsuarioLogado, getPacientes, setPacientes } from '@/lib/database';
+import { getUsuarioLogado, getPacientes, addPaciente } from '@/lib/database';
 import { Paciente } from '@/lib/types';
 import { formatarTelefone, validarTelefone } from '@/lib/utils';
 
@@ -56,7 +56,7 @@ export default function CadastrarPacientePage() {
     }
 
     try {
-      const pacientes = getPacientes();
+      const pacientes = await getPacientes();
       
       // Verificar se já existe um paciente com o mesmo nome e telefone
       const pacienteExiste = pacientes.find(p => 
@@ -71,8 +71,7 @@ export default function CadastrarPacientePage() {
       }
 
       // Criar novo paciente
-      const novoPaciente: Paciente = {
-        id: Date.now().toString(),
+      const novoPaciente = {
         nome: formData.nome,
         endereco: formData.endereco,
         telefone: formData.telefone,
@@ -80,8 +79,7 @@ export default function CadastrarPacientePage() {
       };
 
       // Adicionar à lista de pacientes
-      const novaListaPacientes = [...pacientes, novoPaciente];
-      setPacientes(novaListaPacientes);
+      await addPaciente(novoPaciente);
 
       setSuccess('Paciente cadastrado com sucesso!');
       

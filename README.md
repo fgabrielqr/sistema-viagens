@@ -75,7 +75,7 @@ Se necessário, configure no Netlify:
 - **Next.js 14** - Framework React
 - **TypeScript** - Tipagem estática
 - **Tailwind CSS** - Estilização
-- **LocalStorage** - Persistência de dados
+- **Firebase Firestore** - Persistência de dados em nuvem
 - **Lucide React** - Ícones
 
 ## 📋 Credenciais de Teste
@@ -93,8 +93,13 @@ Se necessário, configure no Netlify:
 - [Netlify Docs](https://docs.netlify.com/)
 - [Next.js Docs](https://nextjs.org/docs)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [Firebase Docs](https://firebase.google.com/docs)
+
+## 🔥 Firebase Setup
+
+Para configurar o Firebase, consulte o arquivo [FIREBASE_SETUP.md](./FIREBASE_SETUP.md)
 
 ---
 
-**Status:** ✅ Pronto para Deploy
-**Versão:** 1.0
+**Status:** ✅ Pronto para Deploy com Firebase
+**Versão:** 2.0 - Firebase Integration
